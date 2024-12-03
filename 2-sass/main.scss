@@ -1,0 +1,74 @@
+;
+
+@use "sass:string";
+@use "sass:list";
+
+$strings: '0' '1' '2' '3' '4' '5' '6' '7' '8' '9';
+$numbers: 0 1 2 3 4 5 6 7 8 9;
+
+@function int($str) {
+  $res: 0;
+	$str: string.split($str, "");
+  @each $c in $str {
+    $i: list.index($strings, $c);
+    $n: list.nth($numbers, $i);
+    $res: $res * 10 + $n;
+  }
+  @return $res;
+}
+
+$lines: string.split($input, "\n");
+
+@function is_report_safe($levels) {
+  $len: list.length($levels);
+  $is_asc: int(list.nth($levels, 2)) > int(list.nth($levels, 1));
+  $is_safe: true;
+
+  @for $i from 2 through $len {
+    $diff: int(list.nth($levels, $i)) - int(list.nth($levels, $i - 1));
+    @if $is_asc {
+      @if $diff < 1 or $diff > 3 {
+        $is_safe: false;
+      }
+    } @else {
+      @if $diff < -3 or $diff > -1 {
+        $is_safe: false;
+      }
+    }
+  }
+
+	@return $is_safe;
+}
+
+// part 1
+$safe_1: 0;
+@each $line in $lines {
+	$levels: string.split($line, " ");
+	@if is_report_safe($levels) {
+		$safe_1: $safe_1 + 1;
+	}
+}
+
+// part 2
+$safe_2: 0;
+@each $line in $lines {
+  $levels: string.split($line, " ");
+	$is_passable: is_report_safe($levels);
+	
+	$len: list.length($levels);
+	@for $i from 1 through $len {
+		$new_levels: ();
+		@for $j from 1 through $len {
+			@if $i != $j {
+				$new_levels: list.append($new_levels, list.nth($levels, $j));
+			}
+		}
+		$is_passable: $is_passable or is_report_safe($new_levels);
+	}
+
+  @if $is_passable {
+    $safe_2: $safe_2 + 1;
+  }
+}
+
+@debug $safe_1 $safe_2;
