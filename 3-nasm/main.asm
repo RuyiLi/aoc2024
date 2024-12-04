@@ -62,11 +62,11 @@ lngprint:
 ; otherwise, rdi is moved to the first invalid character
 ; returns the parsed number or -1
 parsenum:
-	push 	r9
+	push 	rdx
 	push 	rbx
 	mov 	rbx, 0									; resultant number
 .nextchr:
-	cmp		byte [rdi], sil
+	cmp		byte [rdi], sil					; sil is byte of rsi
 	je 		.end
 
 	cmp		byte [rdi], "0"
@@ -78,23 +78,23 @@ parsenum:
 	mul		rbx											; rax = rbx * 10
 	mov		rbx, rax								; rbx = ^
 
-	mov 	al, byte [rdi]					; 8 bits of rax
+	mov 	al, byte [rdi]					; al is byte of rax
 	sub 	al, "0"
-	movzx	r9, al
-	add		rbx, r9
+	movzx	rdx, al
+	add		rbx, rdx
 	
 	inc		rdi
 	jmp 	.nextchr
 .badchr:
 	mov 	rax, -1
 	pop 	rbx
-	pop		r9
+	pop		rdx
 	ret
 .end:
 	mov		rax, rbx
 	inc 	rdi
 	pop 	rbx
-	pop		r9
+	pop		rdx
 	ret
 
 ; program entry point
@@ -132,9 +132,7 @@ puzzle1:
 
 	mov		rdi, rcx
 	mov		rsi, ")"
-	push 	rdx
-	call	parsenum								; TODO figure out why parsenum clobbers rdx
-	pop		rdx
+	call	parsenum
 	mov		rcx, rdi								; move ptr to location returned by parsenum
 
 	cmp 	rax, -1
@@ -195,9 +193,7 @@ puzzle2:												; most of this code is the same as the first part
 
 	mov		rdi, rcx
 	mov		rsi, ")"
-	push 	rdx
-	call	parsenum								; TODO figure out why parsenum clobbers rdx
-	pop		rdx
+	call	parsenum
 	mov		rcx, rdi								; move ptr to location returned by parsenum
 
 	cmp 	rax, -1
