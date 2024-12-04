@@ -17,11 +17,11 @@ global _start
 ; rdi = long to print
 ; noreturn
 lngprint:
-	push rax
-	push rbx
-	push rdx
-	push rsi
-	push rdi
+	push 	rax
+	push 	rbx
+	push 	rdx
+	push 	rsi
+	push 	rdi
 
 	mov		rax, rdi
 	mov		rdi, rsp
@@ -54,45 +54,7 @@ lngprint:
 	pop 	rdx
 	pop 	rbx
 	pop 	rax
-
   ret
-
-
-; rdi = ptr to string
-; returns length of string
-strlen:
-	push	rbx
-	mov 	rbx, rdi
-	mov 	rax, 0
-strlen_nextchr:
-	cmp 	byte [rbx], 0
-	je 		strlen_endloop
-	inc 	rax
-	inc		rbx
-	jmp		strlen_nextchr
-strlen_endloop:
-	pop		rbx
-	ret
-
-; rdi = ptr to string
-; returns ptr to input string
-strprint:
-	push	rdx
-	push	rsi
-	push	rdi
-
-	call 	strlen
-	mov 	rdx, rax 
-	pop 	rsi
-	mov		rdi, 1
-	mov 	rax, 1
-	syscall
-	
-	mov 	rax, rsi
-	mov 	rdi, rsi
-	pop 	rsi
-	pop		rdx
-	ret
 
 ; rdi = ptr to string
 ; rsi = char to end on
