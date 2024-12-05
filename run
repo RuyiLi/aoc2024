@@ -13,6 +13,4 @@ echo "build complete, running..."
 
 input_file=${2:-input.txt}
 echo "reading from $input_file"
-cat $input_file | docker run -i -l $1 $1
-
-docker container prune -f --filter "label=$1" >/dev/null
+cat $input_file | docker run -i --rm $1

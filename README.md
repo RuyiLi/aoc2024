@@ -1,1 +1,32 @@
-Solving AOC 2024 using a different language each day. Docker is used to run each program in a development container so I don't have to make a mess out of my host environment.
+Solving AOC 2024 using a different language each day.
+Docker is used to run each program so I don't have to make a mess out of my host environment.
+
+Each program will read from stdin and display the answers in stdout. Ideally, the program handles the entirety of the IO cycle; however, for some languages like Sass, some preprocessing is mandatory.
+
+## Roadmap
+
+1. Odin
+2. Sass (SCSS)
+3. NASM (x64)
+4. PostgreSQL
+5. Fish
+6. Perl
+7. Zig
+8. Scratch
+9. F#
+10. Clojure
+11. V
+12. Haskell
+13. Pharo Smalltalk
+14. Erlang
+15. Pascal
+16. D
+17. Hack
+18. Inko
+19. Swift
+20. Haxe
+21. Gleam
+22. Nim
+23. OCaml
+24. SBCL
+25. Undecided. Either PHP or the TypeScript type system.
