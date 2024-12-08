@@ -3,6 +3,8 @@ Docker is used to run each program so I don't have to make a mess out of my host
 
 Each program will read from stdin and display the answers in stdout. Ideally, the program handles the entirety of the IO cycle; however, for some languages like Sass, some preprocessing is mandatory.
 
+Day 7: Scratch is not runnable through the usual run script. See the README in the Scratch folder for details. 
+
 ## Roadmap
 
 1. Odin
@@ -11,8 +13,8 @@ Each program will read from stdin and display the answers in stdout. Ideally, th
 4. PostgreSQL
 5. Fish
 6. Perl
-7. Zig
-8. Scratch
+7. Scratch
+8. Zig
 9. F#
 10. Clojure
 11. V
