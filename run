@@ -8,7 +8,7 @@ if [ ! -d "$1" ]; then
 fi
 
 cd $1
-docker build -q -t $1 . >/dev/null
+docker build -t $1 .
 echo "build complete, running..."
 
 input_file=${2:-input.txt}
