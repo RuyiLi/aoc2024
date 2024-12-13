@@ -5,6 +5,8 @@ Each program will read from stdin and display the answers in stdout. Ideally, th
 
 Day 7: Scratch is not runnable through the usual run script. See the README in the Scratch folder for details.
 
+![Languages](languages.svg)
+
 ## Roadmap
 
 1. Odin
