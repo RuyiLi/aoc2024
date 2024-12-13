@@ -1,0 +1,15 @@
+--- smalltalk-3.2/libgst/callin.c	2010-04-21 03:25:01.000000000 -0600
++++ smalltalk-3.2/libgst/callin.c	2023-11-27 20:48:15.236308417 -0700
+@@ -99,11 +99,7 @@
+   if (!_gst_smalltalk_initialized)
+     _gst_initialize (NULL, NULL, GST_NO_TTY);
+ 
+-#ifdef __va_copy
+-  __va_copy (save, ap);
+-#else
+-  save = ap;
+-#endif
++  va_copy(save, ap);
+ 
+   for (numArgs = 0; (anArg = va_arg (ap, OOP)) != NULL; numArgs++);
+ 
