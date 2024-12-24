@@ -23,7 +23,7 @@ Day 7: Scratch is not runnable through the usual run script. See the README in t
 12. GNU Smalltalk
 13. Pascal (FPC)
 14. Erlang
-15. Vale
+15. Swift
 16. D
 17. Hack
 18. Inko
