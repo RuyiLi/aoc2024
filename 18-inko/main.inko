@@ -1,0 +1,80 @@
+import std.set (Set)
+import std.int (Format)
+import std.array (Array)
+import std.deque (Deque)
+import std.stdio (Stdout, Stdin)
+
+# let SIZE = 7
+# let SIMTIME = 12
+let SIZE = 71
+let SIMTIME = 1024
+
+class async Main {
+  fn simulate(n: Int, corruptions: ref Array[(Int, Int)]) -> Int {
+    let corrupted = Set.new
+    corruptions.iter.take(n).each(fn (coord) { corrupted.insert(coord) })
+
+    let q = Deque.new
+    let visited = Set.new
+    let directions = [(1, 0), (0, 1), (-1, 0), (0, -1)]
+
+    q.push_back((0, 0, 0))
+    visited.insert((0, 0))
+    while q.size > 0 {
+      let front = q.pop_front.get
+      let x = front.0
+      let y = front.1
+      let steps = front.2
+      
+      if x == (SIZE - 1) and y == (SIZE - 1) {
+        return steps
+      }
+
+      directions.iter.each(fn (adj) {
+        let tx = x + adj.0
+        let ty = y + adj.1
+        if 
+          0 <= tx and tx < SIZE and 0 <= ty and ty < SIZE and 
+          corrupted.contains?((tx, ty)) == false and 
+          visited.contains?((tx, ty)) == false
+        {
+          q.push_back((tx, ty, steps + 1))
+          visited.insert((tx, ty))
+        }
+      })
+    }
+    
+    -1
+  }
+
+  fn async main {
+    let stdout = Stdout.new
+
+    let bytes = ByteArray.new
+    Stdin.new.read_all(bytes)
+    let input = bytes.drain_to_string.trim
+    let corruptions = input.split('\n').map(fn (coord) {
+      let parts = coord.split(',')
+      let x = Int.parse(parts.next.get, Format.Decimal).get
+      let y = Int.parse(parts.next.get, Format.Decimal).get
+      (x, y)
+    }).to_array
+
+    let puzzle1 = simulate(SIMTIME, ref corruptions)
+    stdout.print('Puzzle 1: ${puzzle1}')
+
+    let mut lo = SIMTIME + 1
+    let mut hi = corruptions.size
+    while lo < hi {
+      let m = (lo + hi) / 2
+      let res = simulate(m, ref corruptions)
+      if res == -1 {
+        hi = m
+      } else {
+        lo = m + 1
+      }
+    }
+    let coord = corruptions.get(lo - 1)
+    stdout.print('Puzzle 2: ${coord.0},${coord.1}')
+  }
+}
