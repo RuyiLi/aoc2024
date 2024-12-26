@@ -35,8 +35,8 @@ class async Main {
         let ty = y + adj.1
         if 
           0 <= tx and tx < SIZE and 0 <= ty and ty < SIZE and 
-          corrupted.contains?((tx, ty)) == false and 
-          visited.contains?((tx, ty)) == false
+          corrupted.contains?((tx, ty)).false? and 
+          visited.contains?((tx, ty)).false?
         {
           q.push_back((tx, ty, steps + 1))
           visited.insert((tx, ty))
