@@ -13,37 +13,40 @@ final directions: Array<Point> = [
 ];
 
 class Main {
-  static function cheatExits(grid:Array<String>, from:Point, cheatLen:Int):Array<WeightedPoint> {
+  static function countReachable(
+    grid:Array<String>,
+    dist:Array<Int>,
+    from:Point,
+    cheatLen:Int,
+  ): Int {
     final size = grid.length;
+    final sr = from.r, sc = from.c;
+    final sd = dist[sr * size + sc];
 
-    final visited = new Map<Int, Bool>();
-    visited.set(from.r * size + from.c, true);
-
-    final exitPoints = new Array<WeightedPoint>();
-    final q = new List<WeightedPoint>();
-    q.add({r: from.r, c: from.c, d: 0});
-    while (!q.isEmpty()) {
-      final front = q.pop();
-      if (front.d == cheatLen) {
-        continue;
-      }
-
-      for (dir in directions) {
-        final tr = front.r + dir.r;
-        final tc = front.c + dir.c;
-        final cell = grid[tr]?.charAt(tc);
-        if (!visited.exists(tr * size + tc)) {
-          if (cell == '#') {
-            q.add({r: tr, c: tc, d: front.d + 1});
-          } else if (cell == '.' || cell == 'E') {
-            exitPoints.push({r: tr, c: tc, d: front.d + 1});
+    // find exact manhat diamond because getting the square and filtering after is boring
+    var count = 0;
+    for (mdist in 1...(cheatLen + 1)) {
+      // diamond border for each manhattan distance in [1, cheatLen]
+      for (offset in 0...mdist) {
+        var dr = mdist - offset;
+        var dc = offset;
+        for (_quadrant in 0...4) {
+          final r = sr + dr;
+          final c = sc + dc;
+          final cell = grid[r]?.charAt(c);
+          final timeSaved = (dist[r * size + c] ?? 0) - sd - mdist;
+          if (timeSaved >= THRESHOLD && (cell == '.' || cell == 'E')) {
+            count++;
           }
-          visited.set(tr * size + tc, true);
+
+          // rotate
+          final dx = dc;
+          dc = dr;
+          dr = -dx;
         }
       }
     }
-
-    return exitPoints;
+    return count;
   }
 
   static public function main():Void {
@@ -79,8 +82,7 @@ class Main {
     final path = new Array<Point>();
 
     // first pass to find path
-    var r = sr;
-    var c = sc;
+    var r = sr, c = sc;
     var d = 0;
     while (true) {
       path.push({r: r, c: c});
@@ -102,26 +104,14 @@ class Main {
     }
     
     var puzzle1 = 0;
-    for (i => from in path.keyValueIterator()) {
-      for (exitPoint in cheatExits(grid, from, 2)) {
-        final l = exitPoint.d;
-        final j = dist[exitPoint.r * size + exitPoint.c];
-        if (j - l - i >= THRESHOLD) {
-          puzzle1++;
-        }
-      }
+    for (from in path) {
+      puzzle1 += countReachable(grid, dist, from, 2);
     }
     Sys.println('Puzzle 1: $puzzle1');
 
     var puzzle2 = 0;
-    for (i => from in path.keyValueIterator()) {
-      for (exitPoint in cheatExits(grid, from, 20)) {
-        final l = exitPoint.d;
-        final j = dist[exitPoint.r * size + exitPoint.c];
-        if (j - l - i >= THRESHOLD) {
-          puzzle2++;
-        }
-      }
+    for (from in path) {
+      puzzle2 += countReachable(grid, dist, from, 20);
     }
     Sys.println('Puzzle 2: $puzzle2');
   }
