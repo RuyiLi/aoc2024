@@ -29,8 +29,8 @@ Day 7: Scratch is not runnable through the usual run script. See the README in t
 18. Inko
 19. Pony
 20. Haxe
-21. Haskell
-22. Gleam
+21. Gleam
+22. Haskell
 23. Nim
 24. OCaml
 25. Undecided. PHP, Groovy, TypeScript type system, ...
