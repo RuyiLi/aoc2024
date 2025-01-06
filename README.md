@@ -9,6 +9,8 @@ Day 7: Scratch is not runnable through the usual run script. See the README in t
 
 ## Roadmap
 
+**Languages that didn't make the cut:** Ring, Hylo, Vale, Groovy, PHP, Ruby, Oberon, Jai, Wren, Lua
+
 1. Odin
 2. Sass (SCSS)
 3. NASM (x64)
@@ -33,4 +35,4 @@ Day 7: Scratch is not runnable through the usual run script. See the README in t
 22. Haskell
 23. Nim
 24. OCaml
-25. Undecided. PHP, Groovy, TypeScript type system, ...
+25. Crystal
